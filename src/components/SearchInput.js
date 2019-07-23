@@ -1,31 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-class SearchInput extends React.Component {
-
-  constructor(props){
-    super(props);
-
-    this.state = {
-      value: ""
-    }
-
-    this.handleChange = this.handleChange.bind(this)
-  }
-
-
-  handleChange=(e)=>{
+function SearchInput({searchQuery}) {
+  
+  function handleChange(e){
     e.preventDefault();
     let value = e.target.value
-    this.setState({value})
-    this.props.searchQuery(value)
+    setInput(value)
+    searchQuery(value)
   }
+    
+  let [input, setInput] = useState("")
  
-
-  render() {
     return(
-      <input onChange={this.handleChange} type="text" placeholder="Search..." value={this.state.value}/>
+      <input onChange={handleChange} type="text" placeholder="Search..." value={input}/>
     )
-  }
+  
 }
 
 export default SearchInput

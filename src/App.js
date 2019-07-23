@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import SearchInput from './components/SearchInput';
 import Select from './components/Select';
 import AccountDetails from './components/AccountDetails';
@@ -24,7 +23,6 @@ class App extends React.Component {
   isvalidQuery = (query) => query.match(/^[ \t\r\n]*$/) ? false : query.trim();
   
   searchQuery(query) {
-    console.log(query);
     let results = []
     let validQuery = "";
 
