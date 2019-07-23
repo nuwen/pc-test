@@ -2,7 +2,8 @@ import React from 'react';
 import SearchInput from './components/SearchInput';
 import Select from './components/Select';
 import AccountDetails from './components/AccountDetails';
-
+import SearchBlock from './components/SearchBlock';
+import "./App.css"
 
 
 class App extends React.Component {
@@ -63,25 +64,28 @@ class App extends React.Component {
     let {results, accounts,selected} = this.state
     return (
       <div className="App">
-        <SearchInput searchQuery={this.searchQuery}/>
+        <SearchBlock>
+
+        <SearchInput selected={selected} searchQuery={this.searchQuery}/>
         <Select 
         handleSelect={this.handleSelect}
         options={
           results.length 
           ? 
-            results 
+          results 
           : 
-            accounts
+          accounts
         }
         autocomplete={results.length ? true : false}
         />
         {
           selected
-        ?
+          ?
           <AccountDetails selected={selected} />
-        : 
+          : 
           ""
         }
+        </SearchBlock>
       </div>
     );
 
