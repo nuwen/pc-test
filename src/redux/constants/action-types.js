@@ -1,0 +1,1 @@
+export const ADD_VIEWED_ACCOUNT = "ADD_VIEWED_ACCOUNT";
