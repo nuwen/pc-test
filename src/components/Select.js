@@ -22,10 +22,11 @@ class Select extends React.Component {
  
 
   render() {
+    let {options, automcomplete} = this.props;
     return(
-      <select>
-        {this.props.options.map((option)=>{
-          return <option>{option.name}</option>
+      <select size={automcomplete ? options.length : 1}>
+        {options.map((option)=>{
+          return <option key={option.id}>{option.name}</option>
         })}
       </select>
     )
