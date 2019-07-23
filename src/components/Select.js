@@ -1,36 +1,20 @@
-import React from 'react';
 
+import React from 'react'
 
+function Select ({options, automcomplete, handleSelect}) {
 
-class Select extends React.Component {
-
-  constructor(props){
-    super(props);
-
-    this.state = {
-      selected: {
-        id: null,
-        name: ""
-      }
-    }
-  }
-
-
-  handleChange=()=>{
-
-  }
- 
-
-  render() {
-    let {options, automcomplete} = this.props;
     return(
-      <select size={automcomplete ? options.length : 1}>
+      <select 
+      onChange={handleSelect}
+      onBlur={handleSelect} 
+      size={automcomplete ? options.length : 1}>
+        <option></option>
         {options.map((option)=>{
-          return <option key={option.id}>{option.name}</option>
+          return <option data-id={option.id} key={option.id}>{option.name}</option>
         })}
       </select>
     )
-  }
 }
+
 
 export default Select

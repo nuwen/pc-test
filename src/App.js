@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import SearchInput from './components/SearchInput';
 import Select from './components/Select';
+import AccountDetails from './components/AccountDetails';
 
 
 
@@ -17,6 +18,7 @@ class App extends React.Component {
     }
 
     this.searchQuery = this.searchQuery.bind(this)
+    this.handleSelect = this.handleSelect.bind(this)
   }
 
   isvalidQuery = (query) => query.match(/^[ \t\r\n]*$/) ? false : query.trim();
@@ -25,7 +27,8 @@ class App extends React.Component {
     console.log(query);
     let results = []
     let validQuery = "";
-    if(this.isvalidQuery(query) && this.isvalidQuery(query).length){
+
+    if ( this.isvalidQuery(query) && this.isvalidQuery(query).length ){
       validQuery = this.isvalidQuery(query);
       
       results = this.state.accounts
@@ -44,21 +47,43 @@ class App extends React.Component {
     }
   }
 
+  handleSelect(e) {
+    e.preventDefault();
+    let index = e.target.options.selectedIndex;
+    let id = e.target.options[index].getAttribute('data-id');
+    let name = e.target.options[index].value;
+
+    if ( id && name) {
+      this.setState({
+        selected: {id, name}
+      })
+    }
+
+  }
   render()
   {
+    let {results, accounts,selected} = this.state
     return (
       <div className="App">
         <SearchInput searchQuery={this.searchQuery}/>
         <Select 
+        handleSelect={this.handleSelect}
         options={
-          this.state.results.length 
+          results.length 
           ? 
-            this.state.results 
+            results 
           : 
-            this.state.accounts
+            accounts
         }
-        autocomplete={this.state.results.length ? true : false}
+        autocomplete={results.length ? true : false}
         />
+        {
+          selected
+        ?
+          <AccountDetails selected={selected} />
+        : 
+          ""
+        }
       </div>
     );
 
