@@ -1,33 +1,38 @@
-import React, {useState} from 'react'
-import { deleteUserAccount } from '../js/api'
+import React, {useState, useEffect } from 'react'
+import DeleteButton from './DeleteButton'
 
 function AccountDetails({selected: {id, name}}) {
 
-  let [btnCount, setBtnCount] = useState(0)
-  let [btnText, setBtnText] = useState('Delete')
+  let [userDetails, setUserDetails] = useState({})
 
-  function incrementCount(){
-    setBtnCount(btnCount => ++btnCount)
+  async function fetchUserDetails(id){
+    let url = "https://dev.presscentric.com/test/accounts/" + id
+    let response = await fetch(url,{
+      mode: 'cors'
+    })
+  
+    let data = await response.json();
+    setUserDetails(data);
   }
 
-  
-  
-  if(btnCount === 1 && btnText !== 'Confirm Delete'){
-    setBtnText('Confirm Delete')
-  }
-
-  if(btnCount === 2){
-    setBtnCount(0)
-    setBtnText('Delete')
-    deleteUserAccount(id)
-  }
-  
+  useEffect(() => {
+    fetchUserDetails(id);
+  },[id])
+    
 
   return(
     <div>
       <h2>Id: {id} - {name}</h2>
       <img src={`https://api.adorable.io/avatars/285/${name.replace(/\s+/g, '')}.png`} alt={`${name}'s Avatar`}/>
-      <button onClick={incrementCount}>{btnText}</button>
+
+      <ul>
+        <li>First Name: {userDetails.nameFirst}</li>
+        <li>Last Name: {userDetails.nameLast}</li>
+        <li>Gender: {userDetails.gender}</li>
+        <li>ID: {id}</li>
+        <li>E-Mail: {userDetails.email}</li>
+      </ul>
+      <DeleteButton id={id}/>
     </div>
   )
 }
