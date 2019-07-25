@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from "react-redux"
 import SearchInput from './components/SearchInput';
 import Select from './components/Select';
 import AccountDetails from './components/AccountDetails';
@@ -6,6 +7,7 @@ import SearchBlock from './components/SearchBlock';
 import "./App.css"
 import {fetchUserAccounts} from './js/api'
 import RecentlyViewed from './components/RecentlyViewed';
+import { ADD_VIEWED_ACCOUNT } from './redux/constants/action-types'
 
 
 class App extends React.Component {
@@ -58,11 +60,21 @@ class App extends React.Component {
 
   handleSelect(e) {
     e.preventDefault();
-    let index = e.target.options.selectedIndex;
-    let id = e.target.options[index].getAttribute('data-id');
-    let name = e.target.options[index].value;
-
+    let index  
+    let id 
+    let name
+    
+    if(e.target.getAttribute('data-el') === 'list'){
+      id = e.target.getAttribute('data-id')
+      name = e.target.getAttribute('data-name')
+    } else {
+      index = e.target.options.selectedIndex;
+      id = e.target.options[index].getAttribute('data-id');
+      name = e.target.options[index].value;
+    }
+    
     if ( id && name) {
+      this.props.dispatch({ type: ADD_VIEWED_ACCOUNT, payload: {id, name} })
       this.setState({
         selected: {id, name}
       })
@@ -99,7 +111,7 @@ class App extends React.Component {
           autocomplete={results.length ? true : false}
         />
         </SearchBlock>
-        <RecentlyViewed />
+        <RecentlyViewed users={this.props.recentUsers} handleSelect={this.handleSelect}/>
         {
           selected.name
           ?
@@ -113,4 +125,11 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {    
+    recentUsers: state.recentUsers
+  }
+}
+
+
+export default connect(mapStateToProps)(App);

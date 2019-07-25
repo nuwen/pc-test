@@ -17,7 +17,7 @@ function Select ({options, autocomplete, handleSelect, accountSelected}) {
     return(
       <select 
       onChange={handleSelect}
-      onBlur={handleSelect} 
+      // onBlur={handleSelect} 
       size={resizeSelect()}>
         <option></option>
         {options.map((option)=>{
