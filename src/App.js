@@ -5,6 +5,7 @@ import AccountDetails from './components/AccountDetails';
 import SearchBlock from './components/SearchBlock';
 import "./App.css"
 import {fetchUserAccounts} from './js/api'
+import RecentlyViewed from './components/RecentlyViewed';
 
 
 class App extends React.Component {
@@ -85,7 +86,6 @@ class App extends React.Component {
           searchQuery={this.searchQuery}
           resetSelect={this.resetSelect}
         />
-
         <Select 
           accountSelected={selected.name.length ? true : false}
           handleSelect={this.handleSelect}
@@ -99,6 +99,7 @@ class App extends React.Component {
           autocomplete={results.length ? true : false}
         />
         </SearchBlock>
+        <RecentlyViewed />
         {
           selected.name
           ?
