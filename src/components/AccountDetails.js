@@ -25,8 +25,12 @@ function AccountDetails({selected: {id, name}, deleteUserClient, resetSelect}) {
     <div className="accountDetails">
       <header className="accountDetails__header">
         <h2>User Details</h2>
-        <img className="accountDetails__avatar" src={`https://api.adorable.io/avatars/285/${name.replace(/\s+/g, '')}.png`} alt={`${name}'s Avatar`}/>
       </header>
+      <div className="accountDetails__avatar">
+        <img  src={`https://api.adorable.io/avatars/285/${name.replace(/\s+/g, '')}.png`} alt={`${name}'s Avatar`}/>
+
+      </div>
+      
 
       <ul className="accountDetails__list">
         <li>First Name: {userDetails.nameFirst}</li>

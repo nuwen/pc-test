@@ -1,0 +1,29 @@
+
+.selectInputList{
+  position: absolute;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 2px 1px -1px rgba(0,0,0,0.12);
+  max-height: 90vh;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 400ms cubic-bezier(0.075, 0.82, 0.165, 1)
+}
+
+.selectInputList--toggled{
+  visibility: visible;
+  opacity: 1;
+}
+
+.selectInputListItem{
+  border-radius: 3px;
+  padding: 5px 10px;
+}
+.selectInputListItem:hover{
+  background: rgba(0,0,0,0.12);
+  cursor: pointer;
+}
+

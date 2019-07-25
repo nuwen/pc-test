@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from "react-redux"
+import Container from '@material-ui/core/Container';
 import SearchInput from './components/SearchInput';
 import Select from './components/Select';
 import AccountDetails from './components/AccountDetails';
@@ -7,10 +8,7 @@ import SearchBlock from './components/SearchBlock';
 import RecentlyViewed from './components/RecentlyViewed';
 import { ADD_VIEWED_ACCOUNT } from './redux/constants/action-types'
 import { REMOVE_DELETED_ACCOUNT } from './redux/constants/action-types'
-
 import {fetchUserAccounts} from './js/api'
-// import "./App.css"
-
 
 class App extends React.Component {
   
@@ -123,48 +121,56 @@ class App extends React.Component {
     let {results, accounts,selected, dropdownToggled} = this.state
     return (
       <div className="App" onClick={this.toggleDropdown}>
-        <div className="left-column">
+    <Container maxWidth="sm">
 
-        <SearchBlock>
+        <div className="appContainer">
+          <div className="left-column">
 
-        <SearchInput 
-          selected={selected} 
-          searchQuery={this.searchQuery}
-          resetSelect={this.resetSelect}
-          toggleDropdown={this.toggleDropdown}
-        />
-        <Select 
-          accountSelected={selected.name.length ? true : false}
-          dropdownToggled={dropdownToggled}
-          handleSelect={this.handleSelect}
-          options={
-            results.length 
-            ? 
-            results 
-            : 
-            accounts
-          }
-          autocomplete={results.length ? true : false}
-        />
-        </SearchBlock>
-        <RecentlyViewed users={this.props.recentUsers} handleSelect={this.handleSelect}/>
-        </div>
+          <SearchBlock>
 
-        
-        <div className="right-column">
-        {
-          selected.name
-          ?
-            
-            <AccountDetails 
+          <SearchInput 
             selected={selected} 
-            deleteUserClient={this.deleteUserClient}
+            searchQuery={this.searchQuery}
             resetSelect={this.resetSelect}
-            />
-            : 
-            ""
-          }
+            toggleDropdown={this.toggleDropdown}
+          />
+          <Select 
+            accountSelected={selected.name.length ? true : false}
+            dropdownToggled={dropdownToggled}
+            handleSelect={this.handleSelect}
+            options={
+              results.length 
+              ? 
+              results 
+              : 
+              accounts
+            }
+            autocomplete={results.length ? true : false}
+          />
+          </SearchBlock>
+          <RecentlyViewed 
+            users={this.props.recentUsers} 
+            handleSelect={this.handleSelect}
+          />
           </div>
+
+          
+          <div className="right-column">
+            {
+              selected.name
+                ?
+              
+              <AccountDetails 
+              selected={selected} 
+              deleteUserClient={this.deleteUserClient}
+              resetSelect={this.resetSelect}
+              />
+                : 
+              ""
+            }
+          </div>
+        </div>
+        </Container>
       </div>
     );
 

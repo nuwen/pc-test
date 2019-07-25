@@ -1,0 +1,18 @@
+.accountDetails{
+  display: grid;
+  justify-content: stretch;
+}
+
+.accountDetails__header {
+  margin: -10px -10px 20px -10px;
+  text-align: center;
+  border-bottom: 1px solid rgb(231, 231, 231);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+.accountDetails__avatar {
+  justify-self: center;
+  img {
+    border-radius: 50%;
+  }
+}

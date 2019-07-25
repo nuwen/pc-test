@@ -3,6 +3,7 @@ import { deleteUserAccount } from '../js/api'
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
+
 const useStyles = makeStyles(theme => ({
   fab: {
     margin: theme.spacing(1),
@@ -36,7 +37,7 @@ function DeleteButton({id, deleteUserClient, resetSelect}) {
   
 
   return(
-    <Fab variant="extended" aria-label="delete" className={classes.fab} onClick={incrementCount}>
+    <Fab color="primary" variant="extended" aria-label="delete" className={classes.fab} onClick={incrementCount}>
       <DeleteIcon className={classes.extendedIcon} />
       {btnText}
     </Fab>
