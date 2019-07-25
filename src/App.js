@@ -4,6 +4,7 @@ import Select from './components/Select';
 import AccountDetails from './components/AccountDetails';
 import SearchBlock from './components/SearchBlock';
 import "./App.css"
+import {fetchUserAccounts} from './js/api'
 
 
 class App extends React.Component {
@@ -12,7 +13,7 @@ class App extends React.Component {
     super(props)
 
     this.state = {
-      accounts: [{id:1,name:"Carolann McTrustey"},{id:2,name:"Thorvald Vergine"},{id:3,name:"Pietra Schulze"},{id:4,name:"Cooper Liccardi"},{id:5,name:"Town Teager"},{id:6,name:"Claire Edlington"},{id:7,name:"Della Frankton"},{id:8,name:"Kleon Manuello"},{id:9,name:"Rees Newall"},{id:10,name:"Shem Daingerfield"},{id:11,name:"Fritz Pierri"},{id:12,name:"Mildrid Firks"},{id:13,name:"Jilly Heimann"},{id:14,name:"Estelle Bathowe"},{id:15,name:"Tabbatha Rosel"},{id:16,name:"Vick Inderwick"},{id:17,name:"Hugibert Lassey"},{id:18,name:"Katharina Bachshell"},{id:19,name:"Calla Fant"},{id:20,name:"Joleen Riddich"}],
+      accounts: [],
       results: [],
       selected: {id: null,name: ""}
     }
@@ -20,6 +21,13 @@ class App extends React.Component {
     this.searchQuery = this.searchQuery.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
     this.resetSelect = this.resetSelect.bind(this)
+  }
+
+  async componentDidMount(){
+    if(!this.state.accounts.length){
+      let accounts = await fetchUserAccounts()
+      this.setState({accounts})
+    }
   }
 
   isvalidQuery = (query) => query.match(/^[ \t\r\n]*$/) ? false : query.trim();
@@ -77,17 +85,20 @@ class App extends React.Component {
           searchQuery={this.searchQuery}
           resetSelect={this.resetSelect}
         />
+
         <Select 
-        handleSelect={this.handleSelect}
-        options={
-          results.length 
-          ? 
-          results 
-          : 
-          accounts
-        }
-        autocomplete={results.length ? true : false}
+          accountSelected={selected.name.length ? true : false}
+          handleSelect={this.handleSelect}
+          options={
+            results.length 
+            ? 
+            results 
+            : 
+            accounts
+          }
+          autocomplete={results.length ? true : false}
         />
+        </SearchBlock>
         {
           selected.name
           ?
@@ -95,7 +106,6 @@ class App extends React.Component {
           : 
           ""
         }
-        </SearchBlock>
       </div>
     );
 

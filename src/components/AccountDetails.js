@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-
+import { deleteUserAccount } from '../js/api'
 
 function AccountDetails({selected: {id, name}}) {
 
@@ -9,6 +9,8 @@ function AccountDetails({selected: {id, name}}) {
   function incrementCount(){
     setBtnCount(btnCount => ++btnCount)
   }
+
+  
   
   if(btnCount === 1 && btnText !== 'Confirm Delete'){
     setBtnText('Confirm Delete')
@@ -17,13 +19,14 @@ function AccountDetails({selected: {id, name}}) {
   if(btnCount === 2){
     setBtnCount(0)
     setBtnText('Delete')
+    deleteUserAccount(id)
   }
   
 
   return(
     <div>
       <h2>Id: {id} - {name}</h2>
-      <p>{btnCount}</p>
+      <img src={`https://api.adorable.io/avatars/285/${name.replace(/\s+/g, '')}.png`} alt={`${name}'s Avatar`}/>
       <button onClick={incrementCount}>{btnText}</button>
     </div>
   )
