@@ -1,30 +1,17 @@
 
 import React from 'react'
 
-function Select ({options, autocomplete, handleSelect, accountSelected}) {
+function Select ({options, autocomplete, handleSelect, accountSelected, dropdownToggled}) {
 
-  function resizeSelect() {
-
-    if(accountSelected) {
-      return 1
-    }
-
-    if(autocomplete && !accountSelected) {
-      return options.length + 1
-    }
-
-  }
-    return(
-      <select 
-      onChange={handleSelect}
-      // onBlur={handleSelect} 
-      size={resizeSelect()}>
-        <option></option>
-        {options.map((option)=>{
-          return <option data-id={option.id} key={option.id}>{option.name}</option>
-        })}
-      </select>
-    )
+  return(
+    <ul 
+    className={"selectInputList " + (dropdownToggled ? "selectInputList--toggled" : "")}>
+      <li></li>
+      {options.map((option)=>{
+        return <li className="selectInputListItem"onClick={handleSelect} data-id={option.id} data-name={option.name} key={option.id}>{option.name}</li>
+      })}
+    </ul>
+  )
 }
 
 

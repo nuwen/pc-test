@@ -4,10 +4,12 @@ import SearchInput from './components/SearchInput';
 import Select from './components/Select';
 import AccountDetails from './components/AccountDetails';
 import SearchBlock from './components/SearchBlock';
-import "./App.css"
-import {fetchUserAccounts} from './js/api'
 import RecentlyViewed from './components/RecentlyViewed';
 import { ADD_VIEWED_ACCOUNT } from './redux/constants/action-types'
+import { REMOVE_DELETED_ACCOUNT } from './redux/constants/action-types'
+
+import {fetchUserAccounts} from './js/api'
+// import "./App.css"
 
 
 class App extends React.Component {
@@ -18,12 +20,15 @@ class App extends React.Component {
     this.state = {
       accounts: [],
       results: [],
-      selected: {id: null,name: ""}
+      selected: {id: null,name: ""},
+      dropdownToggled: false
     }
 
     this.searchQuery = this.searchQuery.bind(this)
     this.handleSelect = this.handleSelect.bind(this)
     this.resetSelect = this.resetSelect.bind(this)
+    this.toggleDropdown = this.toggleDropdown.bind(this)
+    this.deleteUserClient = this.deleteUserClient.bind(this)
   }
 
   async componentDidMount(){
@@ -31,6 +36,25 @@ class App extends React.Component {
       let accounts = await fetchUserAccounts()
       this.setState({accounts})
     }
+
+    let searchInput = document.getElementById('searchInput')
+    searchInput.focus()
+  }
+
+  deleteUserClient(id){
+    function isTargetId(user){
+      return user.id === id * 1;
+    }
+
+      let accounts = this.state.accounts
+      let deletedAccountIndex = accounts.findIndex(isTargetId)
+      accounts.splice(deletedAccountIndex,1)
+      this.props.dispatch({ type: REMOVE_DELETED_ACCOUNT, payload: {id} })
+      
+      this.setState({
+        accounts
+      })
+    
   }
 
   isvalidQuery = (query) => query.match(/^[ \t\r\n]*$/) ? false : query.trim();
@@ -58,20 +82,28 @@ class App extends React.Component {
     }
   }
 
+  toggleDropdown(e){
+    let elClass = e.target.className
+    if(elClass === "searchInput__button"){
+      let dropdownToggled = !this.state.dropdownToggled
+      this.setState({
+        dropdownToggled
+      })
+    } else if(elClass === "searchInput") {
+      this.setState({
+        dropdownToggled: true
+      })
+    } else {
+      this.setState({
+        dropdownToggled: false
+      })
+    }
+  }
+
   handleSelect(e) {
     e.preventDefault();
-    let index  
-    let id 
-    let name
-    
-    if(e.target.getAttribute('data-el') === 'list'){
-      id = e.target.getAttribute('data-id')
-      name = e.target.getAttribute('data-name')
-    } else {
-      index = e.target.options.selectedIndex;
-      id = e.target.options[index].getAttribute('data-id');
-      name = e.target.options[index].value;
-    }
+    let id = e.target.getAttribute('data-id')
+    let name = e.target.getAttribute('data-name')
     
     if ( id && name) {
       this.props.dispatch({ type: ADD_VIEWED_ACCOUNT, payload: {id, name} })
@@ -88,18 +120,22 @@ class App extends React.Component {
   }
   render()
   {
-    let {results, accounts,selected} = this.state
+    let {results, accounts,selected, dropdownToggled} = this.state
     return (
-      <div className="App">
+      <div className="App" onClick={this.toggleDropdown}>
+        <div className="left-column">
+
         <SearchBlock>
 
         <SearchInput 
           selected={selected} 
           searchQuery={this.searchQuery}
           resetSelect={this.resetSelect}
+          toggleDropdown={this.toggleDropdown}
         />
         <Select 
           accountSelected={selected.name.length ? true : false}
+          dropdownToggled={dropdownToggled}
           handleSelect={this.handleSelect}
           options={
             results.length 
@@ -112,13 +148,23 @@ class App extends React.Component {
         />
         </SearchBlock>
         <RecentlyViewed users={this.props.recentUsers} handleSelect={this.handleSelect}/>
+        </div>
+
+        
+        <div className="right-column">
         {
           selected.name
           ?
-          <AccountDetails selected={selected} />
-          : 
-          ""
-        }
+            
+            <AccountDetails 
+            selected={selected} 
+            deleteUserClient={this.deleteUserClient}
+            resetSelect={this.resetSelect}
+            />
+            : 
+            ""
+          }
+          </div>
       </div>
     );
 

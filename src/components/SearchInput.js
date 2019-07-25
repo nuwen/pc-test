@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 
-function SearchInput({searchQuery, selected, resetSelect}) {
+function SearchInput({searchQuery, selected, resetSelect, toggleDropdown}) {
   let [input, setInput] = useState("")
   let prevSelect = ""
-
   
   if(selected.name !== prevSelect && selected.name.length && (selected.name !== input)) {
     setInput(selected.name)
@@ -11,6 +10,7 @@ function SearchInput({searchQuery, selected, resetSelect}) {
   }
 
   function handleChange(e){
+    toggleDropdown(e)
     e.preventDefault();
     resetSelect();
     let value = e.target.value
@@ -21,8 +21,22 @@ function SearchInput({searchQuery, selected, resetSelect}) {
   
  
     return(
-      <input onChange={handleChange} type="text" placeholder="Search..." value={input}/>
-    )
+      <div>
+        <input 
+          id="searchInput" 
+          className="searchInput" 
+          onChange={handleChange} 
+          type="text" 
+          placeholder="Search..." 
+          value={input}
+        />
+
+        <button className="searchInput__button" onClick={toggleDropdown}>
+        v
+        </button>
+      </div>
+    
+      )
   
 }
 
