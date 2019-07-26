@@ -25,7 +25,7 @@ class App extends React.Component {
       dropdownToggled: false,
       message: {
         type: "welcome",
-        message: "Welcome"
+        message: "Welcome to Danton Nguyen's Presscentric Test Project"
       }
     }
 
