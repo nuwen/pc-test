@@ -1,7 +1,7 @@
 ## Getting Started
 
  1. cd into project directory
- 2. execute `yarn` in terminal to begin install packages
+ 2. execute `yarn` in terminal to begin installing packages
  3. run `yarn start` to begin hosting project
  4. visit https://localhost:3000/
 
