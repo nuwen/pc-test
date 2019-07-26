@@ -15,4 +15,6 @@ export async function deleteUserAccount(id){
   console.log( data);
 
   console.log(id + ' successfully deleted')
+
+  return data;
 }

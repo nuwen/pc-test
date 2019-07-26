@@ -18,10 +18,18 @@ function SearchInput({searchQuery, selected, resetSelect, toggleDropdown}) {
     searchQuery(value)
   }
   // TODO: update text field to display selection
-  
+  function handleIconClick(){
+    document.getElementById('searchInput').focus();
+  }
  
     return(
       <div>
+        <div className="searchInput__wrapper">
+        <i 
+          onClick={handleIconClick}
+          className="fas fa-search searchIcon" 
+          ></i>
+
         <input 
           id="searchInput" 
           className="searchInput" 
@@ -29,11 +37,13 @@ function SearchInput({searchQuery, selected, resetSelect, toggleDropdown}) {
           type="text" 
           placeholder="Search..." 
           value={input}
-        />
-
+          />
         <button className="searchInput__button" onClick={toggleDropdown}>
         v
         </button>
+        </div>
+
+        
       </div>
     
       )

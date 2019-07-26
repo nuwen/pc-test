@@ -2,7 +2,7 @@ import React, {useState, useEffect } from 'react'
 
 import DeleteButton from './DeleteButton'
 
-function AccountDetails({selected: {id, name}, deleteUserClient, resetSelect}) {
+function AccountDetails({selected: {id, name}, deleteUserClient, resetSelect, toggleMessage}) {
 
   let [userDetails, setUserDetails] = useState({})
   
@@ -41,7 +41,7 @@ function AccountDetails({selected: {id, name}, deleteUserClient, resetSelect}) {
       </ul>
 
       
-      <DeleteButton id={id} deleteUserClient={deleteUserClient} resetSelect={resetSelect}/>
+      <DeleteButton id={id} deleteUserClient={deleteUserClient} resetSelect={resetSelect} toggleMessage={toggleMessage}/>
     </div>
   )
 }

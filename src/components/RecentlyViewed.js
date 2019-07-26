@@ -5,13 +5,32 @@ const RecentlyViewed = ({users, handleSelect}) => {
   let userList
   let renderNum = -3
   if(users && users.length){
-    userList = users.slice(renderNum).map(user => <li key={user.id} data-el="list" data-id={user.id} data-name={user.name} onClick={handleSelect}>{user.name}</li>)
+    userList = users.slice(renderNum)
+      .map(user => 
+        <li 
+          className="recentlyViewed__list-item" 
+          key={user.id} 
+          data-el="list" 
+          data-id={user.id} 
+          data-name={user.name} 
+          onClick={handleSelect}
+        >
+          <span 
+            className="recentlyViewed__list-item-name"
+            data-id={user.id} 
+            data-name={user.name}
+            onClick={handleSelect}
+          >
+            {user.name}
+          </span>
+        </li>
+      )
   }
   return(
-    <div>
-      <h4>RecentlyViewed</h4>
+    <div className="recentlyViewed">
+      <h3>Recently Viewed</h3>
       
-      <ul>
+      <ul className="recentlyViewed__list">
         {userList}
       </ul>
     </div>

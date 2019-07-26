@@ -6,9 +6,12 @@ import Select from './components/Select';
 import AccountDetails from './components/AccountDetails';
 import SearchBlock from './components/SearchBlock';
 import RecentlyViewed from './components/RecentlyViewed';
+import Message from './components/Message'
 import { ADD_VIEWED_ACCOUNT } from './redux/constants/action-types'
 import { REMOVE_DELETED_ACCOUNT } from './redux/constants/action-types'
 import {fetchUserAccounts} from './js/api'
+import pattern from './images/pattern.png'
+
 
 class App extends React.Component {
   
@@ -19,7 +22,11 @@ class App extends React.Component {
       accounts: [],
       results: [],
       selected: {id: null,name: ""},
-      dropdownToggled: false
+      dropdownToggled: false,
+      message: {
+        type: "welcome",
+        message: "Welcome"
+      }
     }
 
     this.searchQuery = this.searchQuery.bind(this)
@@ -27,6 +34,7 @@ class App extends React.Component {
     this.resetSelect = this.resetSelect.bind(this)
     this.toggleDropdown = this.toggleDropdown.bind(this)
     this.deleteUserClient = this.deleteUserClient.bind(this)
+    this.toggleMessage = this.toggleMessage.bind(this)
   }
 
   async componentDidMount(){
@@ -44,16 +52,16 @@ class App extends React.Component {
       return user.id === id * 1;
     }
 
-      let accounts = this.state.accounts
-      let deletedAccountIndex = accounts.findIndex(isTargetId)
-      accounts.splice(deletedAccountIndex,1)
-      this.props.dispatch({ type: REMOVE_DELETED_ACCOUNT, payload: {id} })
-      
-      this.setState({
-        accounts
-      })
+    let accounts = this.state.accounts
+    let deletedAccountIndex = accounts.findIndex(isTargetId)
+    accounts.splice(deletedAccountIndex,1)
+    this.props.dispatch({ type: REMOVE_DELETED_ACCOUNT, payload: {id} })
     
+    this.setState({
+      accounts
+    })
   }
+
 
   isvalidQuery = (query) => query.match(/^[ \t\r\n]*$/) ? false : query.trim();
   
@@ -98,6 +106,12 @@ class App extends React.Component {
     }
   }
 
+  toggleMessage(type, message){
+    this.setState({
+      message: {type,message}
+    })
+  }
+
   handleSelect(e) {
     e.preventDefault();
     let id = e.target.getAttribute('data-id')
@@ -120,8 +134,8 @@ class App extends React.Component {
   {
     let {results, accounts,selected, dropdownToggled} = this.state
     return (
-      <div className="App" onClick={this.toggleDropdown}>
-    <Container maxWidth="sm">
+      <div className="App" onClick={this.toggleDropdown} style={{backgroundImage: "url(" + pattern + ")", backgroundRepeat: "repeat" }}>
+    <Container maxWidth="md">
 
         <div className="appContainer">
           <div className="left-column">
@@ -161,12 +175,13 @@ class App extends React.Component {
                 ?
               
               <AccountDetails 
-              selected={selected} 
-              deleteUserClient={this.deleteUserClient}
-              resetSelect={this.resetSelect}
+                selected={selected} 
+                deleteUserClient={this.deleteUserClient}
+                resetSelect={this.resetSelect}
+                toggleMessage={this.toggleMessage}
               />
                 : 
-              ""
+              <Message message={this.state.message}/>
             }
           </div>
         </div>

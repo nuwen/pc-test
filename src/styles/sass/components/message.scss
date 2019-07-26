@@ -1,0 +1,10 @@
+.message {
+  display: grid;
+  height: 100%;
+  text-align: center;
+  grid-template-rows: fit-content(200px) auto;
+}
+
+.message__header {
+  text-transform: capitalize;
+}

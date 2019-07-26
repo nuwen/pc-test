@@ -1,5 +1,4 @@
 import React, {useState} from 'react'
-import { deleteUserAccount } from '../js/api'
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -13,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-function DeleteButton({id, deleteUserClient, resetSelect}) {
+function DeleteButton({id, deleteUserClient, resetSelect, toggleMessage}) {
 
   let [btnCount, setBtnCount] = useState(0)
   let [btnText, setBtnText] = useState('Delete')
@@ -22,17 +21,35 @@ function DeleteButton({id, deleteUserClient, resetSelect}) {
   function incrementCount(){
     setBtnCount(btnCount => ++btnCount)
   }
-  
+
+
   if(btnCount === 1 && btnText !== 'Confirm Delete'){
     setBtnText('Confirm Delete')
   }
 
   if(btnCount === 2){
-    resetSelect()
+    let response;
     setBtnCount(0)
     setBtnText('Delete')
+    
+    async function deleteUserAccount(id){
+      let url = "https://dev.presscentric.com/test/accounts/" + id
+      let res = await fetch(url, {
+        method: "DELETE"
+      })
+      
+      response = await res;
+      if(response.status === 204){
+        deleteUserClient(id)
+        toggleMessage("success", "Successfully Deleted User ID: " + id);
+      } else {
+        toggleMessage("error", "There was an issue performing that action.");
+      }
+      resetSelect()
+    }
+
     deleteUserAccount(id)
-    deleteUserClient(id)
+    
   }
   
 
