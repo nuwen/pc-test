@@ -37,7 +37,7 @@ function SearchInput({searchQuery, selected, resetSelect, toggleDropdown}) {
           type="text" 
           placeholder="Search..." 
           value={input}
-          />
+        />
         <button className="searchInput__button" onClick={toggleDropdown}>
         v
         </button>
