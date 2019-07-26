@@ -9,7 +9,7 @@ function Message({message: {type, message}}){
         <h2>{type}</h2>
       </header>
       <p>
-        {message}.
+        {message}
       </p>
     </div>
   )

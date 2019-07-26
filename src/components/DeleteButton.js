@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
-
 const useStyles = makeStyles(theme => ({
   fab: {
     margin: theme.spacing(1),
@@ -11,6 +10,8 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(1),
   },
 }));
+
+
 
 function DeleteButton({id, deleteUserClient, resetSelect, toggleMessage}) {
 
@@ -29,8 +30,6 @@ function DeleteButton({id, deleteUserClient, resetSelect, toggleMessage}) {
 
   if(btnCount === 2){
     let response;
-    setBtnCount(0)
-    setBtnText('Delete')
     
     async function deleteUserAccount(id){
       let url = "https://dev.presscentric.com/test/accounts/" + id
@@ -46,15 +45,17 @@ function DeleteButton({id, deleteUserClient, resetSelect, toggleMessage}) {
         toggleMessage("error", "There was an issue performing that action.");
       }
       resetSelect()
+      setBtnText('Delete')
     }
-
+    
     deleteUserAccount(id)
+    setBtnCount(0)
     
   }
   
 
   return(
-    <Fab color="primary" variant="extended" aria-label="delete" className={classes.fab} onClick={incrementCount}>
+    <Fab color={btnCount === 1 ? "secondary" : "primary"} variant="extended" aria-label="delete" className={classes.fab} onClick={incrementCount}>
       <DeleteIcon className={classes.extendedIcon} />
       {btnText}
     </Fab>

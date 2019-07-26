@@ -11,14 +11,26 @@ function AccountDetails({selected: {id, name}, deleteUserClient, resetSelect, to
     let response = await fetch(url,{
       mode: 'cors'
     })
-  
-    let data = await response.json();
-    setUserDetails(data);
+    
+
+    if (response.status === 404){
+      resetSelect()
+      toggleMessage('error', "Account with specified id is not found.")
+    } else if(response.status !== 200) {
+      resetSelect()
+      toggleMessage('error', "An error has occured.")
+    } else {
+      let data = await response.json();
+      setUserDetails(data);
+    }
   }
 
   useEffect(() => {
-    fetchUserDetails(id);
-  },[id])
+    if(id * 1 !== userDetails.id * 1){
+      fetchUserDetails(id);
+    }
+    })
+
     
 
   return(
